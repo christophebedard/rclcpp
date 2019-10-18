@@ -43,6 +43,7 @@
 #include "rclcpp/type_support_decl.hpp"
 #include "rclcpp/visibility_control.hpp"
 #include "rclcpp/waitable.hpp"
+#include "tracetools/tracetools.h"
 
 namespace rclcpp
 {
@@ -107,6 +108,14 @@ public:
       this->add_event_handler(event_callbacks.liveliness_callback,
         RCL_SUBSCRIPTION_LIVELINESS_CHANGED);
     }
+    TRACEPOINT(
+      rclcpp_subscription_callback_added,
+      (const void *)get_subscription_handle().get(),
+      (const void *)&any_callback_);
+    // The callback object gets copied, so if registration is done too early/before this point
+    // (e.g. in `AnySubscriptionCallback::set()`), its address won't match any address used later
+    // in subsequent tracepoints.
+    any_callback_.register_callback_for_tracing();
   }
 
   /// Support dynamically setting the message memory strategy.
