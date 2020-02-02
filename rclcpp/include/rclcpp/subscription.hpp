@@ -109,8 +109,12 @@ public:
         RCL_SUBSCRIPTION_LIVELINESS_CHANGED);
     }
     TRACEPOINT(
-      rclcpp_subscription_callback_added,
+      rclcpp_subscription_init,
       (const void *)get_subscription_handle().get(),
+      (const void *)this);
+    TRACEPOINT(
+      rclcpp_subscription_callback_added,
+      (const void *)this,
       (const void *)&any_callback_);
     // The callback object gets copied, so if registration is done too early/before this point
     // (e.g. in `AnySubscriptionCallback::set()`), its address won't match any address used later
