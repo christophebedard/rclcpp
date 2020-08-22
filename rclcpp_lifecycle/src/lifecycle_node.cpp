@@ -38,6 +38,7 @@
 #include "rclcpp/node_interfaces/node_topics.hpp"
 #include "rclcpp/node_interfaces/node_waitables.hpp"
 #include "rclcpp/parameter_service.hpp"
+#include "tracetools/tracetools.h"
 
 #include "lifecycle_node_interface_impl.hpp"  // implementation
 
@@ -123,6 +124,11 @@ LifecycleNode::LifecycleNode(
       &LifecycleNodeInterface::on_deactivate, this,
       std::placeholders::_1));
   register_on_error(std::bind(&LifecycleNodeInterface::on_error, this, std::placeholders::_1));
+
+  TRACEPOINT(
+    rclcpp_lifecycle_node_init,
+    static_cast<const void *>(get_node_base_interface()->get_rcl_node_handle()),
+    static_cast<const void *>(this));
 }
 
 LifecycleNode::~LifecycleNode()

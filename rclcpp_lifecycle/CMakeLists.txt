@@ -15,6 +15,7 @@ find_package(rclcpp REQUIRED)
 find_package(rcl_lifecycle REQUIRED)
 find_package(rosidl_typesupport_cpp REQUIRED)
 find_package(lifecycle_msgs REQUIRED)
+find_package(tracetools REQUIRED)
 
 ### CPP High level library
 add_library(rclcpp_lifecycle
@@ -33,6 +34,7 @@ ament_target_dependencies(rclcpp_lifecycle
   "rcl_lifecycle"
   "lifecycle_msgs"
   "rosidl_typesupport_cpp"
+  "tracetools"
 )
 
 # Causes the visibility macros to use dllexport rather than dllimport,
@@ -116,6 +118,7 @@ ament_export_targets(${PROJECT_NAME})
 ament_export_dependencies(rclcpp)
 ament_export_dependencies(rcl_lifecycle)
 ament_export_dependencies(lifecycle_msgs)
+ament_export_dependencies(tracetools)
 ament_package()
 
 install(DIRECTORY include/
